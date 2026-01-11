@@ -50,18 +50,31 @@ img {
 /* =========================
    HEADER / NAVBAR
 ========================= */
-header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: var(--white);
-    border-bottom: 1px solid rgba(0, 74, 173, 0.1);
-    box-shadow: var(--shadow-sm);
-    z-index: 1000;
-    transition: var(--transition);
-}
+header { position: fixed; top: 0; height: 100px; /* fixed header height */ 
+    width: 100%; background: var(--white); 
+    border-bottom: 1px solid rgba(0, 74, 173, 0.1); 
+    box-shadow: var(--shadow-sm); z-index: 1000;
+    transition: var(--transition); } 
+.header-container {
+     max-width: 1400px; 
+    margin: 0 auto; 
+    padding: 1rem 2rem; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    gap: 2rem; } 
+.logo { width: 100px; /* adjust logo width */ 
+    height: 70px; /* adjust logo height */ 
+    background-size: contain; /* fit without stretching */ 
+    background-repeat: no-repeat; background-position: center; 
+    transition: transform 0.3s ease, filter 0.3s ease; } /* optional hover effect */ 
+.logo:hover { transform: scale(1.05); /* slight zoom */
+     filter: brightness(1.1); /* makes it pop on hover */ }
+
 
 .header-container {
+    position: relative;
+    z-index: 1;
     max-width: 1400px;
     margin: 0 auto;
     padding: 1rem 2rem;
@@ -69,23 +82,15 @@ header {
     align-items: center;
     justify-content: space-between;
     gap: 2rem;
+    height: 100%;
 }
 
-.logo-section {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex: 1;
-}
 
-.logo img {
-    height: 50px;
-    width: auto;
-    transition: var(--transition);
-}
 
-.logo:hover img {
-    transform: scale(1.05);
+/* optional hover effect */
+.logo:hover {
+    transform: scale(1.05);     /* slight zoom */
+    filter: brightness(1.1);    /* makes it pop on hover */
 }
 
 .header-slogan {
@@ -523,6 +528,64 @@ nav {
     color: var(--white);
     transform: scale(1.05);
 }
+
+/* Hide details initially */
+.service-details {
+    display: none;
+    text-align: left;
+    margin-top: 1rem;
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Show details when card is active */
+.card.active .service-details {
+    display: block;
+}
+
+
+
+.smart-repair {
+    background: linear-gradient(135deg, #004aad, #66b3ff);
+    color: #fff;
+}
+
+.smart-repair .price-range {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.smart-repair .service-details ul li {
+    color: #f0f0f0;
+}
+
+.smart-repair .btn-contact {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.8rem 1.5rem;
+    background: #fff;
+    color: #004aad;
+    font-weight: 700;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: transform 0.3s, background 0.3s, color 0.3s;
+}
+
+.smart-repair .btn-contact:hover {
+    background: #003080;
+    color: #fff;
+    transform: scale(1.05);
+}
+.smart-repair h3 {
+    color: rgb(255, 255, 255);
+}
+.smart-repair p {
+    color: rgb(178, 219, 255);
+}
+
+
+
 
 /* =========================
    ABOUT SECTION
@@ -1014,6 +1077,42 @@ footer {
         padding: 1rem 1.5rem;
     }
 
+     header {
+    position: fixed;
+    top: 0;
+    height: 100px;         /* fixed header height */
+    width: 100%;
+    background-image: url('images/logo2.png'); /* logo as navbar background */
+    background-size: cover;        /* fill entire navbar */
+    background-position: center;   /* center nicely */
+    background-repeat: no-repeat;
+    box-shadow: var(--shadow-sm);
+    z-index: 1000;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+}
+
+header::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(255, 255, 255, 0.1); /* overlay opacity */
+    z-index: 0;
+}
+
+  /* hide logo image on mobile */
+    .logo img {
+        display: none;
+    }
+
+    /* optionally hide the slogan too if you want */
+    .header-slogan {
+        display: none;
+    }
+
+
     .header-call-btn {
         display: none;
     }
@@ -1060,7 +1159,18 @@ footer {
 
     .hamburger {
         display: flex;
+        margin-left: auto;
+        color: var(--light-gray);
+        transform: translateX(-5px); /* move 5px left */
     }
+
+    .hamburger span {
+    background-color: var(--light-gray); /* change this to whatever color you want */
+}
+/* when menu is open (active class), change X color */
+.hamburger.active span {
+    background-color: var(--dark-blue); /* now X will be visible */
+}
 
     .hero {
         height: 85vh;
@@ -1086,6 +1196,12 @@ footer {
     .service-cards {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+    }
+
+      .service-details {
+        font-size: 0.88rem;
+        line-height: 1.4;
+        padding: 0 0.8rem;
     }
 
     .service-image {

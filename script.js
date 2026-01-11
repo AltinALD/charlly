@@ -367,6 +367,19 @@ document.querySelectorAll(".card, .info-card, .about-content, .about-image").for
     observer.observe(el);
 });
 
+// Accordion for service cards
+const cards = document.querySelectorAll('.service-cards .card');
+
+cards.forEach(card => {
+    card.addEventListener('click', () => {
+        // Toggle active class
+        card.classList.toggle('active');
+    });
+});
+
+
+
+
 /* =========================
    PERFORMANCE OPTIMIZATION
 ========================= */
