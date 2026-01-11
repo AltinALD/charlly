@@ -48,7 +48,8 @@ const heroImages = [
     "images/hero1.jpg",
     "images/hero2.jpg",
     "images/hero3.jpg",
-    "images/hero1.jpg" // Reuse first image for 4th slide, or add hero4.jpg if available
+    "images/hero4.jpg",
+    "images/hero5.jpg"// Reuse first image for 4th slide, or add hero4.jpg if available
 ];
 
 let heroIndex = 0;
