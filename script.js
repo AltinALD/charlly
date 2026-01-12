@@ -172,13 +172,62 @@ formInputs.forEach(input => {
 });
 
 /* =========================
+   FLOATING LABELS FOR BOOKING FORM
+========================= */
+const bookingInputs = document.querySelectorAll("#bookingForm input, #bookingForm select, #bookingForm textarea");
+
+if (bookingInputs.length > 0) {
+    bookingInputs.forEach(input => {
+        const formGroup = input.closest(".form-group");
+        
+        if (!formGroup) return;
+
+        // Function to update label state
+        function updateLabelState() {
+            const value = input.value ? input.value.trim() : '';
+            if (value) {
+                formGroup.classList.add("filled");
+                input.classList.add("has-value");
+            } else {
+                formGroup.classList.remove("filled");
+                input.classList.remove("has-value");
+            }
+        }
+
+        // Handle focus
+        input.addEventListener("focus", function() {
+            updateLabelState();
+        });
+
+        // Handle blur
+        input.addEventListener("blur", function() {
+            updateLabelState();
+        });
+
+        // Handle input/change
+        if (input.tagName === 'SELECT') {
+            input.addEventListener("change", function() {
+                updateLabelState();
+            });
+        } else {
+            input.addEventListener("input", function() {
+                updateLabelState();
+            });
+        }
+
+        // Handle initial state
+        updateLabelState();
+    });
+}
+
+/* =========================
    CONTACT FORM HANDLING
 ========================= */
 const contactForm = document.getElementById("contactForm");
 const formMessage = document.getElementById("formMessage");
 
 if (contactForm) {
-    contactForm.addEventListener("submit", function(e) {
+    contactForm.addEventListener("submit", async function(e) {
         e.preventDefault();
 
         // Get form data
@@ -191,47 +240,123 @@ if (contactForm) {
 
         // Validate form
         if (!data.vorname || !data.nachname || !data.email || !data.nachricht) {
-            showFormMessage("Bitte füllen Sie alle Pflichtfelder aus.", "error");
+            showFormMessage(formMessage, "Bitte füllen Sie alle Pflichtfelder aus.", "error");
             return;
         }
 
         // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(data.email)) {
-            showFormMessage("Bitte geben Sie eine gültige E-Mail-Adresse ein.", "error");
+            showFormMessage(formMessage, "Bitte geben Sie eine gültige E-Mail-Adresse ein.", "error");
             return;
         }
 
-        // Simulate form submission (replace with actual form handling)
-        showFormMessage("Nachricht wird gesendet...", "success");
+        // Show loading message
+        showFormMessage(formMessage, "Nachricht wird gesendet...", "success");
 
-        // In a real application, you would send the data to a server here
-        setTimeout(() => {
-            showFormMessage("Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet. Wir melden uns bald bei Ihnen.", "success");
-            contactForm.reset();
-            
-            // Reset floating labels
-            formInputs.forEach(input => {
-                const formGroup = input.closest(".form-group");
-                if (formGroup) {
-                    formGroup.classList.remove("filled");
-                    input.classList.remove("has-value");
-                }
+        try {
+            const response = await fetch("send-email.php", {
+                method: "POST",
+                body: formData
             });
-        }, 1500);
+
+            const result = await response.json();
+
+            if (result.success) {
+                showFormMessage(formMessage, result.message || "Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet. Wir melden uns bald bei Ihnen.", "success");
+                contactForm.reset();
+                
+                // Reset floating labels
+                formInputs.forEach(input => {
+                    const formGroup = input.closest(".form-group");
+                    if (formGroup) {
+                        formGroup.classList.remove("filled");
+                        input.classList.remove("has-value");
+                    }
+                });
+            } else {
+                showFormMessage(formMessage, result.message || "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.", "error");
+            }
+        } catch (error) {
+            showFormMessage(formMessage, "E-Mail konnte nicht gesendet werden. Bitte versuchen Sie es später erneut.", "error");
+        }
     });
 }
 
-function showFormMessage(message, type) {
-    if (!formMessage) return;
+/* =========================
+   BOOKING FORM HANDLING
+========================= */
+const bookingForm = document.getElementById("bookingForm");
+const bookingFormMessage = document.getElementById("bookingFormMessage");
 
-    formMessage.textContent = message;
-    formMessage.className = `form-message ${type}`;
-    formMessage.style.display = "block";
+if (bookingForm) {
+    bookingForm.addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        // Get form data
+        const formData = new FormData(bookingForm);
+        const data = Object.fromEntries(formData);
+
+        // Reset message
+        bookingFormMessage.textContent = "";
+        bookingFormMessage.className = "form-message";
+
+        // Validate form
+        if (!data.service || !data.vehicle_size || !data.email) {
+            showFormMessage(bookingFormMessage, "Bitte füllen Sie alle Pflichtfelder aus.", "error");
+            return;
+        }
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(data.email)) {
+            showFormMessage(bookingFormMessage, "Bitte geben Sie eine gültige E-Mail-Adresse ein.", "error");
+            return;
+        }
+
+        // Show loading message
+        showFormMessage(bookingFormMessage, "Buchungsanfrage wird gesendet...", "success");
+
+        try {
+            const response = await fetch("send-email.php", {
+                method: "POST",
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                showFormMessage(bookingFormMessage, result.message || "Vielen Dank! Ihre Buchungsanfrage wurde erfolgreich gesendet. Wir melden uns bald bei Ihnen.", "success");
+                bookingForm.reset();
+                
+                // Reset floating labels
+                const bookingInputs = bookingForm.querySelectorAll("input, select, textarea");
+                bookingInputs.forEach(input => {
+                    const formGroup = input.closest(".form-group");
+                    if (formGroup) {
+                        formGroup.classList.remove("filled");
+                        input.classList.remove("has-value");
+                    }
+                });
+            } else {
+                showFormMessage(bookingFormMessage, result.message || "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.", "error");
+            }
+        } catch (error) {
+            showFormMessage(bookingFormMessage, "Buchungsanfrage konnte nicht gesendet werden. Bitte versuchen Sie es später erneut.", "error");
+        }
+    });
+}
+
+function showFormMessage(messageElement, message, type) {
+    if (!messageElement) return;
+
+    messageElement.textContent = message;
+    messageElement.className = `form-message ${type}`;
+    messageElement.style.display = "block";
 
     // Auto-hide after 5 seconds
     setTimeout(() => {
-        formMessage.style.display = "none";
+        messageElement.style.display = "none";
     }, 5000);
 }
 

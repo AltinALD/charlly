@@ -54,6 +54,7 @@
                         </svg>
                     </a>
                 </div>
+                <a href="#buchung" class="header-booking-btn">Termin buchen</a>
                 <a href="tel:+4917662172740" class="header-call-btn">Jetzt Anrufen</a>
             </nav>
               
@@ -76,7 +77,10 @@
         <div class="hero-content">
             <h1 class="hero-title">Hand Autowäsche Heilbronn</h1>
             <p class="hero-tagline">Professionelle Autopflege & Car Detailing</p>
-            <a href="tel:+491234567890" class="call-btn-hero">Jetzt Anrufen</a>
+            <div class="hero-buttons">
+                <a href="#buchung" class="booking-btn-hero">Termin buchen</a>
+                <a href="tel:+491234567890" class="call-btn-hero">Jetzt Anrufen</a>
+            </div>
         </div>
     </section>
 
@@ -267,6 +271,54 @@
 
 
 
+    <!-- Buchung -->
+    <section id="buchung" class="booking">
+        <div class="section-header">
+            <h2>Termin buchen</h2>
+            <p class="section-subtitle">Vereinbaren Sie jetzt Ihren Wunschtermin</p>
+        </div>
+        <div class="booking-container">
+            <form id="bookingForm" class="booking-form" action="send-email.php" method="POST">
+                <input type="hidden" name="form_type" value="booking">
+                <div class="form-group">
+                    <select name="service" id="bookingService" required>
+                        <option value="">Service auswählen *</option>
+                        <option value="Handwäsche Außen">Handwäsche Außen</option>
+                        <option value="Innenreinigung">Innenreinigung</option>
+                        <option value="Full Detailing">Full Detailing</option>
+                    </select>
+                    <label for="bookingService">Service-Typ *</label>
+                </div>
+                <div class="form-group">
+                    <select name="vehicle_size" id="bookingVehicleSize" required>
+                        <option value="">Fahrzeuggröße auswählen *</option>
+                        <option value="Auto">Auto</option>
+                        <option value="SUV">SUV</option>
+                        <option value="Van">Van</option>
+                    </select>
+                    <label for="bookingVehicleSize">Fahrzeuggröße *</label>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" id="bookingEmail" required>
+                    <label for="bookingEmail">E-Mail *</label>
+                </div>
+                <div class="form-group">
+                    <input type="tel" name="telefon" id="bookingPhone">
+                    <label for="bookingPhone">Telefonnummer (optional)</label>
+                </div>
+                <div class="form-group">
+                    <textarea name="nachricht" id="bookingNotes"></textarea>
+                    <label for="bookingNotes">Zusätzliche Hinweise (optional)</label>
+                </div>
+                <button type="submit" class="submit-btn">
+                    <span>Termin anfragen</span>
+                    <i class="fas fa-calendar-check"></i>
+                </button>
+                <div id="bookingFormMessage" class="form-message"></div>
+            </form>
+        </div>
+    </section>
+
     <!-- Kontakt -->
     <section id="kontakt" class="contact">
         <div class="section-header">
@@ -305,7 +357,7 @@
                     <p><a href="mailto:info@autowasche-hannover.de">info@charlysautosalon.de</a></p>
                 </div>
             </div>
-            <form id="contactForm" class="contact-form">
+            <form id="contactForm" class="contact-form" action="send-email.php" method="POST">
                 <div class="form-group">
                     <input type="text" name="vorname" id="vorname" required>
                     <label for="vorname">Vorname</label>

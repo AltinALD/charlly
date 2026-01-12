@@ -174,6 +174,27 @@ nav {
     box-shadow: var(--shadow-md);
 }
 
+.header-booking-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.75rem;
+    background: linear-gradient(135deg, var(--light-blue), var(--primary-blue));
+    color: var(--white);
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.header-booking-btn:hover {
+    background: linear-gradient(135deg, var(--primary-blue), var(--hover-blue));
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
 .header-call-btn {
     display: inline-flex;
     align-items: center;
@@ -327,6 +348,35 @@ nav {
 
 .hero-content.fade-in {
     animation: fadeInUp 0.8s ease-out;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+.booking-btn-hero {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--light-blue), var(--primary-blue));
+    color: var(--white);
+    padding: 1.1rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    transition: var(--transition);
+    letter-spacing: 0.5px;
+}
+
+.booking-btn-hero:hover {
+    background: linear-gradient(135deg, var(--primary-blue), var(--hover-blue));
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
 }
 
 .call-btn-hero {
@@ -751,6 +801,25 @@ nav {
 /* =========================
    CONTACT SECTION
 ========================= */
+.booking {
+    padding: 6rem 2rem;
+    background: var(--white);
+}
+
+.booking-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.booking-form {
+    background: linear-gradient(to bottom, rgba(0, 102, 204, 0.03) 0%, var(--white) 4%);
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow-md);
+    border-top: 4px solid var(--primary-blue);
+    position: relative;
+}
+
 .contact {
     padding: 6rem 2rem;
     background: var(--light-gray);
@@ -851,7 +920,8 @@ nav {
 }
 
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+.form-group select {
     width: 100%;
     padding: 1.4rem 1rem 0.6rem;
     border: 2px solid #e0e0e0;
@@ -861,6 +931,21 @@ nav {
     transition: var(--transition);
     background: var(--white);
     color: var(--text-dark);
+}
+
+.form-group select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%230066cc' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 3rem;
+}
+
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
 }
 
 .form-group input:focus,
@@ -884,7 +969,8 @@ nav {
 }
 
 .form-group input:focus + label,
-.form-group textarea:focus + label {
+.form-group textarea:focus + label,
+.form-group select:focus + label {
     top: 0.5rem;
     font-size: 0.75rem;
     color: var(--primary-blue);
@@ -893,15 +979,18 @@ nav {
 
 .form-group.filled label,
 .form-group input.has-value + label,
-.form-group textarea.has-value + label {
+.form-group textarea.has-value + label,
+.form-group select.has-value + label {
     top: 0.5rem;
     font-size: 0.75rem;
     color: var(--text-gray);
     font-weight: 600;
 }
 
+
 .form-group.filled input:focus + label,
-.form-group.filled textarea:focus + label {
+.form-group.filled textarea:focus + label,
+.form-group.filled select:focus + label {
     color: var(--primary-blue);
 }
 
@@ -1176,6 +1265,10 @@ header::before {
     }
 
 
+    .header-booking-btn {
+        display: none;
+    }
+
     .header-call-btn {
         display: none;
     }
@@ -1247,6 +1340,18 @@ header::before {
 
     .hero-tagline {
         font-size: 1.2rem;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .booking-btn-hero,
+    .call-btn-hero {
+        width: 100%;
+        max-width: 280px;
     }
 
     .services,
@@ -1329,6 +1434,7 @@ header::before {
         padding: 1.5rem;
     }
 
+    .booking-form,
     .contact-form {
         padding: 1.5rem 1rem;
     }
